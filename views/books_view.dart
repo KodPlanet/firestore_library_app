@@ -129,7 +129,7 @@ class _BuildListViewState extends State<BuildListView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => UpdateBookView(
-                                      book: filteredList[index])));
+                                      book: list[index])));
                         },
                       ),
                       IconSlideAction(
@@ -140,7 +140,7 @@ class _BuildListViewState extends State<BuildListView> {
                           await Provider.of<BooksViewModel>(context,
                                   listen: false)
                               .deleteBook(widget.kitapList[index]);
-                          print(filteredList[index].id);
+                          print(list[index].id);
                         },
                       ),
                     ],
