@@ -139,48 +139,14 @@ class _BuildListViewState extends State<BuildListView> {
                         onTap: () async {
                           await Provider.of<BooksViewModel>(context,
                                   listen: false)
-                              .deleteBook(widget.kitapList[index]);
-                          print(list[index].id);
+                              .deleteBook(list[index]);
+                     
                         },
                       ),
                     ],
                   );
 
-                  /* return Dismissible(
-                    key: UniqueKey(),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
-                      color: Colors.redAccent,
-                    ),
-                    onDismissed: (_) async {
-                      await Provider.of<BooksViewModel>(context,
-                              listen: false)
-                          .deleteBook(kitapList[index]);
-                      print(kitapList[index].id);
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: Text(kitapList[index].bookName),
-                        subtitle: Text(kitapList[index].authorName),
-                        trailing: IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        UpdateBookView(
-                                            book: kitapList[index])));
-                          },
-                        ),
-                      ),
-                    ),
-                  );*/
+
                 }),
           ),
         ],
