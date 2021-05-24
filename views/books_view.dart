@@ -1,5 +1,6 @@
 import 'package:demo_firebase_setup/models/book_model.dart';
 import 'package:demo_firebase_setup/views/books_view_model.dart';
+import 'package:demo_firebase_setup/views/borrow_list_view.dart';
 import 'package:demo_firebase_setup/views/update_book_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -74,6 +75,7 @@ class _BuildListViewState extends State<BuildListView> {
   @override
   Widget build(BuildContext context) {
     var fullList = widget.kitapList;
+
     return Flexible(
       child: Column(
         children: [
@@ -119,6 +121,20 @@ class _BuildListViewState extends State<BuildListView> {
                     ),
                     actionPane: SlidableScrollActionPane(),
                     actionExtentRatio: 0.2,
+                    actions: [
+                      IconSlideAction(
+                        caption: 'KAYITLAR',
+                        color: Colors.greenAccent,
+                        icon: Icons.person,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      BorrowListView(book: list[index])));
+                        },
+                      ),
+                    ],
                     secondaryActions: [
                       IconSlideAction(
                         caption: 'Edit',
@@ -128,8 +144,8 @@ class _BuildListViewState extends State<BuildListView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UpdateBookView(
-                                      book: list[index])));
+                                  builder: (context) =>
+                                      UpdateBookView(book: list[index])));
                         },
                       ),
                       IconSlideAction(
@@ -140,13 +156,46 @@ class _BuildListViewState extends State<BuildListView> {
                           await Provider.of<BooksViewModel>(context,
                                   listen: false)
                               .deleteBook(list[index]);
-                     
                         },
                       ),
                     ],
                   );
 
-
+                  /* return Dismissible(
+                    key: UniqueKey(),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      color: Colors.redAccent,
+                    ),
+                    onDismissed: (_) async {
+                      await Provider.of<BooksViewModel>(context,
+                              listen: false)
+                          .deleteBook(kitapList[index]);
+                      print(kitapList[index].id);
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(kitapList[index].bookName),
+                        subtitle: Text(kitapList[index].authorName),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateBookView(
+                                            book: kitapList[index])));
+                          },
+                        ),
+                      ),
+                    ),
+                  );*/
                 }),
           ),
         ],
