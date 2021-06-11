@@ -1,5 +1,6 @@
 import 'package:demo_firebase_setup/models/book_model.dart';
 import 'package:demo_firebase_setup/views/books_view_model.dart';
+import 'package:demo_firebase_setup/views/borrow_list_view.dart';
 import 'package:demo_firebase_setup/views/update_book_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,7 +20,10 @@ class _BooksViewState extends State<BooksView> {
       create: (_) => BooksViewModel(),
       builder: (context, child) => Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: AppBar(title: Text('KİTAP LİSTESİ')),
+        appBar: AppBar(
+          title: Text('KİTAP LİSTESİ'),
+          centerTitle: true,
+        ),
         body: Center(
           child: Column(children: [
             StreamBuilder<List<Book>>(
@@ -74,6 +78,7 @@ class _BuildListViewState extends State<BuildListView> {
   @override
   Widget build(BuildContext context) {
     var fullList = widget.kitapList;
+
     return Flexible(
       child: Column(
         children: [
@@ -119,34 +124,93 @@ class _BuildListViewState extends State<BuildListView> {
                     ),
                     actionPane: SlidableScrollActionPane(),
                     actionExtentRatio: 0.2,
-                    secondaryActions: [
-                      IconSlideAction(
-                        caption: 'Edit',
-                        color: Colors.orange,
-                        icon: Icons.edit,
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateBookView(
-                                      book: list[index])));
-                        },
+                    actions: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 1.0),
+                        child: IconSlideAction(
+                          caption: 'Kayıtlar',
+                          color: Colors.greenAccent,
+                          icon: Icons.person,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BorrowListView(book: list[index])));
+                          },
+                        ),
                       ),
-                      IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () async {
-                          await Provider.of<BooksViewModel>(context,
-                                  listen: false)
-                              .deleteBook(list[index]);
-                     
-                        },
+                    ],
+                    secondaryActions: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 1.0),
+                        child: IconSlideAction(
+                          caption: 'Düzenle',
+                          color: Colors.orange,
+                          icon: Icons.edit,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateBookView(book: list[index])));
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 1.0),
+                        child: IconSlideAction(
+                          caption: 'Sil',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () async {
+                            await Provider.of<BooksViewModel>(context,
+                                    listen: false)
+                                .deleteBook(list[index]);
+                          },
+                        ),
                       ),
                     ],
                   );
 
-
+                  /* return Dismissible(
+                    key: UniqueKey(),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      color: Colors.redAccent,
+                    ),
+                    onDismissed: (_) async {
+                      await Provider.of<BooksViewModel>(context,
+                              listen: false)
+                          .deleteBook(kitapList[index]);
+                      print(kitapList[index].id);
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(kitapList[index].bookName),
+                        subtitle: Text(kitapList[index].authorName),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateBookView(
+                                            book: kitapList[index])));
+                          },
+                        ),
+                      ),
+                    ),
+                  );*/
                 }),
           ),
         ],
